@@ -1,0 +1,14 @@
+PATH=/usr/local/bin:/usr/bin:/bin
+# ┌ min (0-59)
+# │  ┌ hour (0-23)
+# │  │  ┌ day-of-month (1-31)
+# │  │  │  ┌ month (1-12)
+# │  │  │  │  ┌ day-of-week (0-6 = Sun-Sat)
+# │  │  │  │  │
+# │  │  │  │  │     clean.py args…
+# │  │  │  │  │     (printer arg is auto-inserted)
+# │  │  │  │  │
+#─┬──┬──┬──┬──┬──────────────────────────────────────────────────────────────
+# Run one circle on every sunday at 2:00 AM. The >> /proc/1/fd/1 2>&1
+# part is to redirect output to the container's stdout.
+0 2 * * 0  python3 /app/smarttankclean.py --printer ${PRINTER_IP} --cycles 1 >> /proc/1/fd/1 2>&1

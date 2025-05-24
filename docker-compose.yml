@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  smarttank-clean:
+    image: ghcr.io/sasjonge/smarttank-clean:latest
+    container_name: smarttank-clean
+    environment:
+      PRINTER_IP: "192.168.178.30"
+      # optional – override schedule file path inside container
+      SCHEDULE_FILE: /config/schedule.txt
+      TZ: "Europe/Berlin"             # optional override
+    # Optional – uncomment to use a custom schedule file
+    volumes:
+      - ./config:/config:ro
+    # Careful with restart unless stopped when running one-off tasks
+    # it will restart the container after it finishes, and therefore
+    # it will clean the tank again and again.
+    # Only use with the schedule file.
+    restart: unless-stopped
